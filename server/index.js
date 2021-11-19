@@ -46,13 +46,17 @@ app.post('/questions/:product_id', (req, res) => {
 app.put('/questions/:question_id/helpful', (req, res) => {
   let questionId = req.params.question_id;
 
-  return questionModels.putHelpful(questionId)
+  questionModels.putHelpful(questionId)
     .then(results => res.status(202).send())
     .catch(err => res.status(400).send(err));
 })
 
 app.put('/questions/:question_id/report', (req, res) => {
+  let questionId = req.params.question_id;
 
+  questionModels.putReported(questionId)
+    .then(results => res.status(202).send())
+    .catch(err => res.status(400).send(err));
 })
 
 app.listen(port, () => {

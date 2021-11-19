@@ -48,11 +48,16 @@ module.exports.questionModels = {
       .catch(err => {
         console.log('failed to update helpful: ', err);
         return err;
-      })
+      });
   },
 
-  putReported: () => {
-
+  putReported: (questionId) => {
+    return Question.findOneAndUpdate({ id: questionId }, { reported: true })
+      .then(results => results)
+      .catch(err => {
+        console.log('failed to report the question: ', err);
+        return err;
+      });
   }
 };
 
