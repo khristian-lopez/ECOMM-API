@@ -1,23 +1,24 @@
-const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/QA-API')
-.then(() => console.log('Connected'))
-.catch(() => console.log('Could not connect'));
+const { Sequelize, DataTypes, Model } = require('sequelize');
+const sequelize = new Sequelize('postgres://khris:Ugly1234@localhost:5432/sdc')
 
-let questionSchema = mongoose.Schema({
-  id: String,
-  product_id: String,
-  body: String,
-  date_written: String,
-  asker_name: String,
-  asker_email: String,
-  reported: String,
-  helpful: String
+
+const question = sequelize.define('question', {
+  // Model attributes are defined here
+  id: {type: DataTypes.INTEGER, primaryKey: true},
+  product_id: DataTypes.INTEGER,
+  body: DataTypes.TEXT,
+  date_written: DataTypes.TEXT,
+  asker_name: DataTypes.TEXT,
+  asker_email: DataTypes.TEXT,
+  reported: DataTypes.INTEGER,
+  helpful: DataTypes.INTEGER,
+}, {
+  // Other model options go here
+  timestamps: false
 });
 
-let Question = mongoose.model('Question', questionSchema, 'Questions')
-
-let getOne = () => {
-  return Question.findOne({id: '1'}).then(response => response)
+let getAllQuestions = (product_id) => {
+  return question.findAll({ where: { product_id: product_id } }).then(response => response)
 }
 
-module.exports.getOne = getOne;
+module.exports.getAllQuestions = getAllQuestions;

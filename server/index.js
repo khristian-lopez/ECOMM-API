@@ -1,10 +1,11 @@
 const express = require('express')
 const app = express()
 const port = 3000
-const getOne = require('../database/index.js').getOne
+const getAllQuestions = require('../database/index.js').getAllQuestions
 
 app.get('/', (req, res) => {
-  getOne().then(response => res.send(response))
+  getAllQuestions(1).then(response => res.send(response))
+
 })
 
 app.listen(port, () => {
