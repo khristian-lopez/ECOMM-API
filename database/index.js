@@ -31,15 +31,21 @@ module.exports.questionModels = {
   },
 
   postQuestion: (questionData) => {
-    // TODO: figure out how to implement auto increment of id
-    let newQuestion = new Question(questionData);
-
-    return newQuestion.save()
-      .then(results => results)
+    return Question.findOne().sort({ id: -1 })
+      .then(results => {
+        questionData["id"] = results.id + 1;
+        let newQuestion = new Question(questionData);
+        return newQuestion.save()
+          .then(results => results)
+          .catch(err => {
+            console.log('failed to save question: ', err);
+            return err;
+          });
+      })
       .catch(err => {
-        console.log('failed to save question: ', err);
+        console.log('failed to get latest document: ', err);
         return err;
-      });
+      })
   },
 
   putHelpful: (questionId) => {

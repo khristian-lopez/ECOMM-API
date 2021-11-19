@@ -22,13 +22,11 @@ app.get('/questions/:product_id', (req, res) => {
 })
 
 app.post('/questions/:product_id', (req, res) => {
-  // TODO: figure out how to implement auto increment of id
   let productId = req.params.product_id;
   let data = req.body;
   let createdAt = new Date().getTime();
 
   questionModels.postQuestion({
-    id: 3518964,
     product_id: productId,
     body: data.body,
     date_written: createdAt,
