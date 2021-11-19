@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/questions/:product_id', (req, res) => {
   let productId = req.params.product_id;
 
-  return questionModels.getQuestions(productId)
+  questionModels.getQuestions(productId)
     .then(results => res.status(200).send(results))
     .catch(err => res.status(400).send(err));
 })
@@ -27,7 +27,7 @@ app.post('/questions/:product_id', (req, res) => {
   let data = req.body;
   let createdAt = new Date().getTime();
 
-  return questionModels.postQuestion({
+  questionModels.postQuestion({
     id: 3518964,
     product_id: productId,
     body: data.body,
@@ -44,7 +44,11 @@ app.post('/questions/:product_id', (req, res) => {
 })
 
 app.put('/questions/:question_id/helpful', (req, res) => {
+  let questionId = req.params.question_id;
 
+  return questionModels.putHelpful(questionId)
+    .then(results => res.status(202).send())
+    .catch(err => res.status(400).send(err));
 })
 
 app.put('/questions/:question_id/report', (req, res) => {

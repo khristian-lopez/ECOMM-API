@@ -22,7 +22,7 @@ let getOne = () => {
 
 module.exports.questionModels = {
   getQuestions: (productId) => {
-    return Question.find({ product_id: productId })
+    return Question.find({ product_id: productId, reported: false })
       .then(results => results)
       .catch(err => {
         console.log('failed to retrieve questions: ', err);
@@ -42,8 +42,13 @@ module.exports.questionModels = {
       });
   },
 
-  put: () => {
-
+  putHelpful: (questionId) => {
+    return Question.findOneAndUpdate({ id: questionId }, { $inc: { helpful: 1 } })
+      .then(results => results)
+      .catch(err => {
+        console.log('failed to update helpful: ', err);
+        return err;
+      })
   },
 
   putReported: () => {
