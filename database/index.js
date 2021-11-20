@@ -17,8 +17,22 @@ let questionSchema = mongoose.Schema({
 let Question = mongoose.model('Question', questionSchema, 'questions')
 
 let getOne = () => {
-  return Question.findOne({id: '1'}).then(response => response)
+  return Answer.findOne({id: '1'}).then(response => response)
 }
+
+let answerSchema = mongoose.Schema({
+  id: Number,
+  question_id: Number,
+  body: String,
+  date_written: Number,
+  answerer_name: String,
+  answerer_email: String,
+  reported: Boolean,
+  helpful: Number,
+  photos: Array
+});
+
+let Answer = mongoose.model('Answer', answerSchema, 'Combined')
 
 module.exports.questionModels = {
   getQuestions: (productId) => {
@@ -67,4 +81,16 @@ module.exports.questionModels = {
   }
 };
 
-module.exports.getOne = getOne;
+module.exports.answerFunctions  = {
+  getAllAnswers: (question_id) => {
+    return Answer.find({ question_id: question_id, reported: false })
+      .then(results => results)
+      .catch(err => {
+        console.log('Failed to retrieve answers for question: ' + question_id);
+        return err;
+      });
+  },
+  postAnswer: (answerData) => {
+  }
+}
+/* module.exports.getOne = getOne; */

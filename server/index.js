@@ -2,16 +2,16 @@ const express = require('express')
 const morgan = require('morgan')
 const app = express()
 const port = 3000
-const getOne = require('../database/index.js').getOne
-const { questionModels } = require('../database/index.js')
+/* const getOne = require('../database/index.js').getOne */
+const { questionModels, answerFunctions } = require('../database/index.js')
 
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// app.get('/', (req, res) => {
-//   getOne().then(response => res.send(response))
-// })
+/*  app.get('/', (req, res) => {
+  getOne().then(response => res.send(response))
+}) */
 
 app.get('/qa/questions/', (req, res) => {
   let productId = req.query.product_id;
@@ -57,6 +57,12 @@ app.put('/qa/questions/:question_id/report', (req, res) => {
     .catch(err => res.status(400).send(err));
 })
 
+app.get('/qa/answers/', (req, res) => {
+  answerFunctions.getAllAnswers(1)
+    .then(results => res.status(200).send(results))
+    .catch(err => res.status(400).send(err));
+})
+
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+  console.log(`QA-API server listening at http://localhost:${port}`)
 })
