@@ -63,6 +63,15 @@ app.get('/qa/answers/', (req, res) => {
     .catch(err => res.status(400).send(err));
 })
 
+app.post('/qa/answers/', (req, res) => {
+})
+
+app.put('/qa/answers/helpful', (req, res) => {
+})
+
+app.put('/qa/answers/report', (req, res) => {
+})
+
 app.listen(port, () => {
   console.log(`QA-API server listening at http://localhost:${port}`)
 })
