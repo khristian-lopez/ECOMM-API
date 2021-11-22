@@ -57,19 +57,22 @@ app.put('/qa/questions/:question_id/report', (req, res) => {
     .catch(err => res.status(400).send(err));
 })
 
-app.get('/qa/answers/', (req, res) => {
-  answerFunctions.getAllAnswers(1)
+app.get('/qa/questions/:question_id/answers', (req, res) => {
+  answerFunctions.getAllAnswers(req.params.question_id)
     .then(results => res.status(200).send(results))
     .catch(err => res.status(400).send(err));
 })
 
-app.post('/qa/answers/', (req, res) => {
+app.post('/qa/questions/:question_id/answers', (req, res) => {
+  answerFunctions.postAnswer(req.body, req.params.question_id)
+  .then(results => res.status(201).send(results))
+  .catch(err => res.status(400).send(err))
 })
 
-app.put('/qa/answers/helpful', (req, res) => {
+app.put('/qa/answers/:answer_id/helpful', (req, res) => {
 })
 
-app.put('/qa/answers/report', (req, res) => {
+app.put('/qa/answers/:answer_id/report', (req, res) => {
 })
 
 app.listen(port, () => {

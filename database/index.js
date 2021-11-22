@@ -90,7 +90,48 @@ module.exports.answerFunctions  = {
         return err;
       });
   },
-  postAnswer: (answerData) => {
+  postAnswer: (answerData, question_id) => {
+    return Answer.findOne().sort({ id: -1 })
+    .then(results => {
+      let newAnswer = new Answer({
+        id: results.id + 1,
+        question_id: question_id,
+        body: answerData.body,
+        date_written: new Date().getTime(),
+        answerer_name: answerData.name,
+        answerer_email: answerData.email,
+        reported: false,
+        helpful: 0,
+        photos: answerData.photos
+      });
+      return newAnswer.save()
+        .then(results => results)
+        .catch(err => {
+          console.log('Failed to post answer!');
+          return err;
+        });
+        console.log(results)
+    })
+    .catch(err => {
+      console.log('Failed to retrieve last answer in the database!');
+      return err;
+    })
+  },
+  markAnswerAsHelpful: (answer_id) => {
+      return Answer.findOneAndUpdate({ id: answer_id }, { $inc: { helpful: 1 } })
+        .then(results => results)
+        .catch(err => {
+          console.log('Failed to mark answer: ' + answer_id + ' as helpful!');
+          return err;
+        });
+  },
+  reportAnswer: (answer_id) => {
+    return Answer.findOneAndUpdate({ id: answer_id }, { reported: true })
+      .then(results => results)
+      .catch(err => {
+        console.log('Failed to report answer: ' + answer_id);
+        return err;
+      });
   }
 }
 /* module.exports.getOne = getOne; */
