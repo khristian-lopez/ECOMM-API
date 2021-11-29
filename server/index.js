@@ -9,10 +9,6 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// app.get('/', (req, res) => {
-//   getOne().then(response => res.send(response))
-// })
-
 app.get('/qa/questions/', (req, res) => {
   let productId = req.query.product_id;
 
@@ -26,7 +22,7 @@ app.post('/qa/questions/:product_id', (req, res) => {
   let data = req.body;
   let createdAt = new Date().getTime();
 
-  questionModels.postQuestion({
+  let questionData = {
     product_id: productId,
     body: data.body,
     date_written: createdAt,
@@ -34,7 +30,9 @@ app.post('/qa/questions/:product_id', (req, res) => {
     asker_email: data.email,
     reported: false,
     helpful: 0
-  })
+  };
+
+  questionModels.postQuestion(questionData)
     .then(results => {
       res.status(201).send(results)
     })

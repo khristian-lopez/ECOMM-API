@@ -16,10 +16,6 @@ let questionSchema = mongoose.Schema({
 
 let Question = mongoose.model('Question', questionSchema, 'questions')
 
-let getOne = () => {
-  return Question.findOne({id: '1'}).then(response => response)
-}
-
 module.exports.questionModels = {
   getQuestions: (productId) => {
     return Question.find({ product_id: productId, reported: false })
@@ -66,5 +62,3 @@ module.exports.questionModels = {
       });
   }
 };
-
-module.exports.getOne = getOne;
