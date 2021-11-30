@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/QA-API')
+// mongoose.connect('mongodb://localhost/QA-API')
+const ec2Address = '54.176.45.178';
+mongoose.connect(`mongodb://appuser:qaapiuser@${ec2Address}:27017/questions_api?authSource=admin`)
 .then(() => console.log('Connected'))
-.catch(() => console.log('Could not connect'));
+.catch((err) => console.log('Could not connect: ', err));
 
 let questionSchema = mongoose.Schema({
   id: Number,
