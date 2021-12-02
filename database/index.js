@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
+const ec2Address = '54.176.50.56';
 // mongoose.connect('mongodb://localhost/QA-API')
-const ec2Address = '54.176.45.178';
 mongoose.connect(`mongodb://appuser:qaapiuser@${ec2Address}:27017/questions_api?authSource=admin`)
 .then(() => console.log('Connected'))
 .catch((err) => console.log('Could not connect: ', err));
@@ -19,9 +19,13 @@ let questionSchema = mongoose.Schema({
 let Question = mongoose.model('Question', questionSchema, 'questions')
 
 module.exports.questionModels = {
-  getQuestions: (productId) => {
-    return Question.find({ product_id: productId, reported: false })
-      .then(results => results)
+  getQuestions: (productId, reqTime) => {
+    console.time(`query find ${reqTime}`);
+    return Question.find({ product_id: productId, reported: false }).select({ id: 1, body: 1, date_written: 1, asker_name: 1 }).lean()
+      .then(results => {
+        console.timeEnd(`query find ${reqTime}`);
+        return results;
+      })
       .catch(err => {
         console.log('failed to retrieve questions: ', err);
         return err;
