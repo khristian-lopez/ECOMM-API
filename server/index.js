@@ -5,22 +5,22 @@ const port = 3000
 const getOne = require('../database/index.js').getOne
 const { questionModels } = require('../database/index.js')
 
-app.use(morgan('dev'));
+// app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/loaderio-1e727d46e36ea8c4778bb78690659689.txt', (req, res) => {
-  res.status(200).send('loaderio-1e727d46e36ea8c4778bb78690659689');
+app.get('/loaderio-6d22b8c517f9d010b8d73fef3630f588.txt', (req, res) => {
+  res.status(200).send('loaderio-6d22b8c517f9d010b8d73fef3630f588');
 })
 
 app.get('/qa/questions/', (req, res) => {
   let productId = req.query.product_id;
-  let reqTime = req._startTime.getTime();
-  console.time(`handler ${reqTime}`);
-  questionModels.getQuestions(productId, reqTime)
+  // let reqTime = req._startTime.getTime();
+  // console.time(`handler ${reqTime}`);
+  questionModels.getQuestions(productId)
     .then(results => {
       res.status(200).send(results);
-      console.timeEnd(`handler ${reqTime}`);
+      // console.timeEnd(`handler ${reqTime}`);
     })
     .catch(err => res.status(400).send(err));
 })

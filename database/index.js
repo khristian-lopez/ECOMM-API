@@ -20,10 +20,10 @@ let Question = mongoose.model('Question', questionSchema, 'questions')
 
 module.exports.questionModels = {
   getQuestions: (productId, reqTime) => {
-    console.time(`query find ${reqTime}`);
+    // console.time(`query find ${reqTime}`);
     return Question.find({ product_id: productId, reported: false }).select({ id: 1, body: 1, date_written: 1, asker_name: 1 }).lean()
       .then(results => {
-        console.timeEnd(`query find ${reqTime}`);
+        // console.timeEnd(`query find ${reqTime}`);
         return results;
       })
       .catch(err => {
