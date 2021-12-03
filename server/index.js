@@ -12,7 +12,9 @@ app.use(express.urlencoded({ extended: true }));
 // app.get('/', (req, res) => {
 //   getOne().then(response => res.send(response))
 // })
-
+app.get('/loaderio-ab9671530576d5683ac04d546ae35e4e', (req, res) => {
+	res.send('loaderio-ab9671530576d5683ac04d546ae35e4e')
+})
 app.get('/qa/questions/', (req, res) => {
   let productId = req.query.product_id;
 

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/QA-API')
+mongoose.connect('mongodb://54.241.137.251:27017/QA-API')
 .then(() => console.log('Connected'))
 .catch(() => console.log('Could not connect'));
 
