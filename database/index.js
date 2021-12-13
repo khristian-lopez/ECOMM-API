@@ -87,6 +87,7 @@ module.exports.answerFunctions  = {
       .then(results => results)
       .catch(err => {
         console.log('Failed to retrieve answers for question: ' + question_id);
+        console.log(err)
         return err;
       });
   },
